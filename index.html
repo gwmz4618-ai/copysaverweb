@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>罰抄救星</title>
+    <style>
+        /* 這裡負責美化網頁 */
+        body { font-family: "Microsoft JhengHei", sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
+        h2 { text-align: center; color: #1a73e8; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        button { width: 100%; background-color: #1a73e8; color: white; padding: 12px; border: none; border-radius: 6px; margin-top: 20px; cursor: pointer; font-size: 16px; }
+        button:hover { background-color: #1557b0; }
+        textarea { width: 100%; margin-top: 20px; border-radius: 6px; border: 1px solid #ddd; padding: 10px; box-sizing: border-box; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>🚀 罰抄救星 Online</h2>
+
+    <label>請輸入題目:</label>
+    <input type="text" id="wordA" placeholder="例如：CaCO3">
+
+    <label>請輸入名稱:</label>
+    <input type="text" id="wordB" placeholder="灰石">
+
+    <label>你要抄幾遍？ (次數):</label>
+    <input type="text" id="times" value="10">
+
+    <button onclick="generate()">生成罰抄內容</button>
+
+    <label>罰抄結果：</label>
+    <textarea id="output" rows="12" readonly placeholder="結果會顯示在這裡..."></textarea>
+</div>
+
+<script>
+    // 這一段就是把你的 copy_saver.py 邏輯轉成網頁版
+    function generate() {
+        const a = document.getElementById('wordA').value;
+        const b = document.getElementById('wordB').value;
+        const tStr = document.getElementById('times').value;
+        const output = document.getElementById('output');
+
+        // 1. 使用你要求的 isdigit 邏輯 (JS 裡用正則表達式檢查純數字)
+        if (!/^\d+$/.test(tStr)) {
+            alert("⚠️ 錯誤：次數只能填數字喔！");
+            return;
+        }
+
+        if (a === "" || b === "") {
+            alert("⚠️ 錯誤：題目和名稱不能空著！");
+            return;
+        }
+
+        // 2. 執行罰抄邏輯 (對應你的 Python: one_line * times)
+        const times = parseInt(tStr);
+        const oneLine = a + " " + b + "\n";
+
+        // JS 的 repeat 就像 Python 的 *
+        const finalResult = oneLine.repeat(times);
+
+        // 3. 塞回網頁畫面的 Textarea 裡
+        output.value = finalResult;
+    }
+</script>
+
+</body>
+</html>
